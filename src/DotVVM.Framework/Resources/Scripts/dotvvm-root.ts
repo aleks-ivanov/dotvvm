@@ -1,4 +1,4 @@
-import { initCore, getViewModel, getViewModelObservable, initBindings, getCulture, getState } from "./dotvvm-base"
+import { initCore, getViewModel, getViewModelObservable, initBindings, getCulture, getState, getStateManager } from "./dotvvm-base"
 import addPolyfills from './DotVVM.Polyfills'
 import * as events from './events'
 import * as spa from "./spa/spa"
@@ -83,6 +83,9 @@ const dotvvmExports = {
         }
     },
     get state() { return getState() },
+    patchState(a: any) {
+        getStateManager().patchState(a)
+    },
     viewModelObservables: {
         get root() { return getViewModelObservable(); }
     },

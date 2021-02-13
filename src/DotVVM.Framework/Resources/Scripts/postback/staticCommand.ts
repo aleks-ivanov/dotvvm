@@ -4,6 +4,7 @@ import * as events from '../events';
 import * as http from './http'
 import { handleRedirect } from './redirect';
 import { getKnownTypes, updateTypeInfo } from '../metadata/typeMap';
+import { DotvvmPostbackError } from '../shared-classes';
 
 export async function staticCommandPostback(sender: HTMLElement, command: string, args: any[], options: PostbackOptions): Promise<any> {
 

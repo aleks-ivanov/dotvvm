@@ -143,13 +143,13 @@ namespace DotVVM.Framework.ViewModel.Serialization
             {
                 result["renderedResources"] = JArray.FromObject(context.ResourceManager.GetNamedResourcesInOrder().Select(r => r.Name));
             }
-            result["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
-
             // TODO: do not send on postbacks
             if (validationRules?.Count > 0) result["validationRules"] = validationRules;
  
             if (commandResult != null) result["commandResult"] = WriteCommandData(commandResult, serializer, "the command result");
             AddCustomPropertiesIfAny(context, serializer, result);
+
+            result["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
 
             context.ViewModelJson = result;
         }
@@ -202,7 +202,9 @@ namespace DotVVM.Framework.ViewModel.Serialization
             {
                 throw new Exception($"Could not serialize {description} of type '{ data.GetType().FullName}'. Serialization failed at property { writer.Path }. {GeneralViewModelRecommendations}", ex);
             }
-            return writer.Token;
+            response["result"] = writer.Token;
+            response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
+            return response.ToString(JsonFormatting);
         }
 
         protected virtual JsonSerializer CreateJsonSerializer() => DefaultSerializerSettingsProvider.Instance.Settings.Apply(JsonSerializer.Create);
