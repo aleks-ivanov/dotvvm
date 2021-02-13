@@ -13,6 +13,9 @@
     <Content Include="**/*.dotmaster;**/*.dotcontrol;**/*.dothtml" Exclude="obj/**/*.*;bin/**/*.*" CopyToPublishDirectory="Always" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\FeatureSamples\PageModules\ModuleControl.dotcontrol" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="sampleConfig.json" />
     <None Remove="Views\ComplexSamples\NestedComboBox\InnerWrapper.dotcontrol" />
     <None Remove="Views\ComplexSamples\NestedComboBox\OuterWrapper.dotcontrol" />
@@ -52,7 +55,19 @@
     <None Remove="Views\Errors\ResourceCircularDependency.dothtml" />
     <None Remove="Views\FeatureSamples\Caching\CachedValues.dothtml" />
     <None Remove="Views\FeatureSamples\JavascriptTranslation\GenericMethodTranslation.dothtml" />
+    <None Remove="Views\FeatureSamples\JsDirectives\BasicSample.dothtml" />
+    <None Remove="Views\FeatureSamples\LambdaExpressions\LambdaExpressions.dothtml" />
     <None Remove="Views\FeatureSamples\Localization\Globalize.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleControl.dotcontrol" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInMarkupControl.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInMarkupControlTwice.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInPage.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInPageCommandAmbiguous.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInPageMasterPage.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInPageSpaMasterPage.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleInPageSpaMasterPage2.dothtml" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleMasterPage.dotmaster" />
+    <None Remove="Views\FeatureSamples\PageModules\ModuleSpaMasterPage.dotmaster" />
     <None Remove="Views\FeatureSamples\MarkupControl\Device.dotcontrol" />
     <None Remove="Views\FeatureSamples\MarkupControl\StaticCommandInMarkupControl.dothtml" />
     <None Remove="Views\FeatureSamples\MarkupControl\StaticCommandInMarkupControlCallingRegularCommand.dothtml" />
@@ -66,6 +81,7 @@
     <None Remove="Views\FeatureSamples\Resources\RequiredOnPostback.dothtml" />
     <None Remove="Views\FeatureSamples\Serialization\DeserializationVirtualElements.dothtml" />
     <None Remove="Views\FeatureSamples\CustomResponseProperties\SimpleExceptionFilter.dothtml" />
+    <None Remove="Views\FeatureSamples\StaticCommand\CustomAwaitable.dothtml" />
     <None Remove="Views\FeatureSamples\StaticCommand\StaticCommand_ArrayAssigment.dothtml" />
     <None Remove="Views\FeatureSamples\StaticCommand\StaticCommand_LoadComplexDataFromService.dothtml" />
     <None Remove="Views\FeatureSamples\StaticCommand\StaticCommand_NullAssignment.dothtml" />
@@ -91,6 +107,9 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Views\FeatureSamples\PageModules\ModuleControl.dotcontrol" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DotVVM.Framework\DotVVM.Framework.csproj" />
     <ProjectReference Include="..\DotVVM.Samples.BasicSamples.Api.Common\DotVVM.Samples.BasicSamples.Api.Common.csproj" />
     <ProjectReference Include="..\EmbeddedResourceControls\EmbeddedResourceControls.csproj" />
@@ -107,6 +126,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\FeatureSamples\ViewModules\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\FeatureSamples\NewFolder\" />

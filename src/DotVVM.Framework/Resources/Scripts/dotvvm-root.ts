@@ -21,6 +21,8 @@ import * as spaEvents from './spa/events'
 import { isPostbackRunning } from "./postback/internal-handlers"
 import * as api from './api/api'
 import * as eventHub from './api/eventHub'
+import * as viewModuleManager from './viewModules/viewModuleManager'
+import { notifyModuleLoaded } from './postback/resourceLoader'
 
 if (compileConstants.nomodules) {
     addPolyfills()
@@ -89,6 +91,16 @@ const dotvvmExports = {
         serializeDate,
         parseDate,
         deserialize
+    },
+    viewModules: {
+        registerOne: viewModuleManager.registerViewModule,
+        init: viewModuleManager.initViewModule,
+        call: viewModuleManager.callViewModuleCommand,
+        registerNamedCommand: viewModuleManager.registerNamedCommand,
+        registerMany: viewModuleManager.registerViewModules
+    },
+    resourceLoader: {
+        notifyModuleLoaded
     }
 }
 

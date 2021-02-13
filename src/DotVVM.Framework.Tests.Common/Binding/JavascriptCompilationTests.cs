@@ -368,6 +368,36 @@ namespace DotVVM.Framework.Tests.Binding
         }
 
         [TestMethod]
+        [DataRow("Enumerable.Where(LongArray, (long item) => item % 2 == 0)", DisplayName = "Regular call of Enumerable.Where")]
+        [DataRow("LongArray.Where((long item) => item % 2 == 0)", DisplayName = "Syntax sugar - extension method")]
+        public void JsTranslator_EnumerableWhere(string binding)
+        {
+            var result = CompileBinding(binding, new[] { typeof(TestViewModel) });
+            Assert.AreEqual("LongArray().filter(function(item){return ko.unwrap(item)%2==0;})", result);
+        }
+        [TestMethod]
+        public void JsTranslator_NestedEnumerableMethods()
+        {
+            var result = CompileBinding("Enumerable.Where(Enumerable.Where(LongArray, (long item) => item % 2 == 0), (long item) => item % 3 == 0)", new[] { typeof(TestViewModel) });
+            Assert.AreEqual("LongArray().filter(function(item){return ko.unwrap(item)%2==0;}).filter(function(item){return ko.unwrap(item)%3==0;})", result);
+        }
+        [TestMethod]
+        [DataRow("Enumerable.Select(LongArray, (long item) => -item)", DisplayName = "Regular call of Enumerable.Select")]
+        [DataRow("LongArray.Select((long item) => -item)", DisplayName = "Syntax sugar - extension method")]
+        public void JsTranslator_EnumerableSelect(string binding)
+        {
+            var result = CompileBinding(binding, new[] { typeof(TestViewModel) });
+            Assert.AreEqual("LongArray().map(function(item){return -ko.unwrap(item);})", result);
+        }
+
+        [TestMethod]
+        public void JsTranslator_ValidMethod_UnsupportedTranslation()
+        {
+            Assert.ThrowsException<NotSupportedException>(() =>
+                CompileBinding("Enumerable.Skip<long>(LongArray, 2)", new[] { typeof(TestViewModel) }));
+        }
+
+        [TestMethod]
         public void JavascriptCompilation_GuidToString()
         {
             var result = CompileBinding("GuidProp != Guid.Empty ? GuidProp.ToString() : ''", typeof(TestViewModel));
