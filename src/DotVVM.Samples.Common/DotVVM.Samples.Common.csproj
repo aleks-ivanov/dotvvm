@@ -58,6 +58,7 @@
     <None Remove="Views\FeatureSamples\JsDirectives\BasicSample.dothtml" />
     <None Remove="Views\FeatureSamples\LambdaExpressions\LambdaExpressions.dothtml" />
     <None Remove="Views\FeatureSamples\Localization\Globalize.dothtml" />
+    <None Remove="Views\FeatureSamples\MarkupControl\CommandPropertiesInMarkupControl.dothtml" />
     <None Remove="Views\FeatureSamples\PageModules\ModuleControl.dotcontrol" />
     <None Remove="Views\FeatureSamples\PageModules\ModuleInMarkupControl.dothtml" />
     <None Remove="Views\FeatureSamples\PageModules\ModuleInMarkupControlTwice.dothtml" />
@@ -69,6 +70,7 @@
     <None Remove="Views\FeatureSamples\PageModules\ModuleMasterPage.dotmaster" />
     <None Remove="Views\FeatureSamples\PageModules\ModuleSpaMasterPage.dotmaster" />
     <None Remove="Views\FeatureSamples\MarkupControl\Device.dotcontrol" />
+    <None Remove="Views\FeatureSamples\MarkupControl\Dialog.dotcontrol" />
     <None Remove="Views\FeatureSamples\MarkupControl\StaticCommandInMarkupControl.dothtml" />
     <None Remove="Views\FeatureSamples\MarkupControl\StaticCommandInMarkupControlCallingRegularCommand.dothtml" />
     <None Remove="Views\FeatureSamples\PostbackConcurrency\RedirectPostbackQueue.dothtml" />
