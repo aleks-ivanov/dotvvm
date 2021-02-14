@@ -75,7 +75,7 @@ namespace DotVVM.Framework.ViewModel.Serialization
             {
                 return false;
             }
-            
+
             return null;
         }
 
@@ -145,7 +145,7 @@ namespace DotVVM.Framework.ViewModel.Serialization
             }
             // TODO: do not send on postbacks
             if (validationRules?.Count > 0) result["validationRules"] = validationRules;
- 
+
             if (commandResult != null) result["commandResult"] = WriteCommandData(commandResult, serializer, "the command result");
             AddCustomPropertiesIfAny(context, serializer, result);
 
@@ -178,6 +178,7 @@ namespace DotVVM.Framework.ViewModel.Serialization
             var response = new JObject();
             response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
             response["result"] = WriteCommandData(result, serializer, "the static command result");
+            response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
             AddCustomPropertiesIfAny(context, serializer, response);
             return response.ToString(JsonFormatting);
         }
@@ -202,9 +203,7 @@ namespace DotVVM.Framework.ViewModel.Serialization
             {
                 throw new Exception($"Could not serialize {description} of type '{ data.GetType().FullName}'. Serialization failed at property { writer.Path }. {GeneralViewModelRecommendations}", ex);
             }
-            response["result"] = writer.Token;
-            response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
-            return response.ToString(JsonFormatting);
+            return writer.Token;
         }
 
         protected virtual JsonSerializer CreateJsonSerializer() => DefaultSerializerSettingsProvider.Instance.Settings.Apply(JsonSerializer.Create);
@@ -254,7 +253,7 @@ namespace DotVVM.Framework.ViewModel.Serialization
             return validationRules;
         }
 
-        
+
 
         /// <summary>
         /// Serializes the redirect action.
