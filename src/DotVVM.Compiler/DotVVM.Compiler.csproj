@@ -19,6 +19,9 @@ for some reason. What fun. -->
     <CheckEolTargetFramework>False</CheckEolTargetFramework>
     <RollForward>LatestMajor</RollForward>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
+    <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
+  </PropertyGroup>
 
   <!-- Related to packaging -->
   <PropertyGroup>

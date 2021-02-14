@@ -55,8 +55,9 @@ namespace DotVVM.Framework.Tests.Runtime
             contextMock.SetupGet(m => m.User).Returns(new WindowsPrincipal(WindowsIdentity.GetAnonymous()));
 
 
-            serializer = configuration.ServiceLocator.GetService<IViewModelSerializer>() as DefaultViewModelSerializer;
-            context = new DotvvmRequestContext(contextMock.Object, configuration, configuration.ServiceProvider) {
+			serializer = configuration.ServiceProvider.GetService<IViewModelSerializer>() as DefaultViewModelSerializer;
+            context = new DotvvmRequestContext(contextMock.Object, configuration, configuration.ServiceProvider)
+            {
                 Presenter = configuration.RouteTable.GetDefaultPresenter(configuration.ServiceProvider),
                 Route = new DotvvmRoute("TestRoute", "test.dothtml", new { }, p => p.GetService<DotvvmPresenter>(), configuration)
             };
