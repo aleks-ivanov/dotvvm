@@ -202,6 +202,7 @@ namespace DotVVM.Testing.Abstractions
         public const string FeatureSamples_CommandArguments_CommandArguments = "FeatureSamples/CommandArguments/CommandArguments";
         public const string FeatureSamples_CommandArguments_CommandArgumentTypes = "FeatureSamples/CommandArguments/CommandArgumentTypes";
         public const string FeatureSamples_CommandArguments_ReturnValue = "FeatureSamples/CommandArguments/ReturnValue";
+        public const string FeatureSamples_CompositeControls_BasicSample = "FeatureSamples/CompositeControls/BasicSample";
         public const string FeatureSamples_ConditionalCssClasses_ConditionalCssClasses = "FeatureSamples/ConditionalCssClasses/ConditionalCssClasses";
         public const string FeatureSamples_CustomResponseProperties_SimpleExceptionFilter = "FeatureSamples/CustomResponseProperties/SimpleExceptionFilter";
         public const string FeatureSamples_DateTimeSerialization_DateTimeSerialization = "FeatureSamples/DateTimeSerialization/DateTimeSerialization";
@@ -229,6 +230,7 @@ namespace DotVVM.Testing.Abstractions
         public const string FeatureSamples_MarkupControl_ComboBoxDataSourceBoundToStaticCollection = "FeatureSamples/MarkupControl/ComboBoxDataSourceBoundToStaticCollection";
         public const string FeatureSamples_MarkupControl_CommandBindingInDataContextWithControlProperty = "FeatureSamples/MarkupControl/CommandBindingInDataContextWithControlProperty";
         public const string FeatureSamples_MarkupControl_CommandBindingInRepeater = "FeatureSamples/MarkupControl/CommandBindingInRepeater";
+        public const string FeatureSamples_MarkupControl_CommandPropertiesInMarkupControl = "FeatureSamples/MarkupControl/CommandPropertiesInMarkupControl";
         public const string FeatureSamples_MarkupControl_ControlControlCommandInvokeAction = "FeatureSamples/MarkupControl/ControlControlCommandInvokeAction";
         public const string FeatureSamples_MarkupControl_ControlPropertyUpdatedByServer = "FeatureSamples/MarkupControl/ControlPropertyUpdatedByServer";
         public const string FeatureSamples_MarkupControl_ControlPropertyUpdating = "FeatureSamples/MarkupControl/ControlPropertyUpdating";
@@ -237,14 +239,9 @@ namespace DotVVM.Testing.Abstractions
         public const string FeatureSamples_MarkupControl_MarkupControlRegistration = "FeatureSamples/MarkupControl/MarkupControlRegistration";
         public const string FeatureSamples_MarkupControl_MultiControlHierarchy = "FeatureSamples/MarkupControl/MultiControlHierarchy";
         public const string FeatureSamples_MarkupControl_ResourceBindingInControlProperty = "FeatureSamples/MarkupControl/ResourceBindingInControlProperty";
+        public const string FeatureSamples_MarkupControl_StaticCommandInMarkupControl = "FeatureSamples/MarkupControl/StaticCommandInMarkupControl";
+        public const string FeatureSamples_MarkupControl_StaticCommandInMarkupControlCallingRegularCommand = "FeatureSamples/MarkupControl/StaticCommandInMarkupControlCallingRegularCommand";
         public const string FeatureSamples_NestedMasterPages_Content = "FeatureSamples/NestedMasterPages/Content";
-        public const string FeatureSamples_PageModules_ModuleInMarkupControl = "FeatureSamples/PageModules/ModuleInMarkupControl";
-        public const string FeatureSamples_PageModules_ModuleInMarkupControlTwice = "FeatureSamples/PageModules/ModuleInMarkupControlTwice";
-        public const string FeatureSamples_PageModules_ModuleInPage = "FeatureSamples/PageModules/ModuleInPage";
-        public const string FeatureSamples_PageModules_ModuleInPageCommandAmbiguous = "FeatureSamples/PageModules/ModuleInPageCommandAmbiguous";
-        public const string FeatureSamples_PageModules_ModuleInPageMasterPage = "FeatureSamples/PageModules/ModuleInPageMasterPage";
-        public const string FeatureSamples_PageModules_ModuleInPageSpaMasterPage = "FeatureSamples/PageModules/ModuleInPageSpaMasterPage";
-        public const string FeatureSamples_PageModules_ModuleInPageSpaMasterPage2 = "FeatureSamples/PageModules/ModuleInPageSpaMasterPage2";
         public const string FeatureSamples_ParameterBinding_OptionalParameterBinding = "FeatureSamples/ParameterBinding/OptionalParameterBinding";
         public const string FeatureSamples_ParameterBinding_ParameterBinding = "FeatureSamples/ParameterBinding/ParameterBinding";
         public const string FeatureSamples_PostBack_ConfirmPostBackHandler = "FeatureSamples/PostBack/ConfirmPostBackHandler";
@@ -285,6 +282,7 @@ namespace DotVVM.Testing.Abstractions
         public const string FeatureSamples_ServerSideStyles_ServerSideStyles_MatchingViewModel = "FeatureSamples/ServerSideStyles/ServerSideStyles_MatchingViewModel";
         public const string FeatureSamples_ServerSideStyles_DirectoryStyle_ServerSideStyles = "FeatureSamples/ServerSideStyles/DirectoryStyle/ServerSideStyles";
         public const string FeatureSamples_ServerSideStyles_NoDirectoryStyle_ServerSideStyles = "FeatureSamples/ServerSideStyles/NoDirectoryStyle/ServerSideStyles";
+        public const string FeatureSamples_StaticCommand_CustomAwaitable = "FeatureSamples/StaticCommand/CustomAwaitable";
         public const string FeatureSamples_StaticCommand_StaticCommand = "FeatureSamples/StaticCommand/StaticCommand";
         public const string FeatureSamples_StaticCommand_StaticCommand_ArrayAssigment = "FeatureSamples/StaticCommand/StaticCommand_ArrayAssigment";
         public const string FeatureSamples_StaticCommand_StaticCommand_ComboBoxSelectionChanged = "FeatureSamples/StaticCommand/StaticCommand_ComboBoxSelectionChanged";
@@ -321,10 +319,13 @@ namespace DotVVM.Testing.Abstractions
         public const string FeatureSamples_ViewModelProtection_NestedSignatures = "FeatureSamples/ViewModelProtection/NestedSignatures";
         public const string FeatureSamples_ViewModelProtection_SignedNestedInServerToClient = "FeatureSamples/ViewModelProtection/SignedNestedInServerToClient";
         public const string FeatureSamples_ViewModelProtection_ViewModelProtection = "FeatureSamples/ViewModelProtection/ViewModelProtection";
+        public const string FeatureSamples_ViewModules_ModuleInMarkupControl = "FeatureSamples/ViewModules/ModuleInMarkupControl";
+        public const string FeatureSamples_ViewModules_ModuleInMarkupControlTwice = "FeatureSamples/ViewModules/ModuleInMarkupControlTwice";
+        public const string FeatureSamples_ViewModules_ModuleInPage = "FeatureSamples/ViewModules/ModuleInPage";
+        public const string FeatureSamples_ViewModules_ModuleInPageCommandAmbiguous = "FeatureSamples/ViewModules/ModuleInPageCommandAmbiguous";
+        public const string FeatureSamples_ViewModules_ModuleInPageMasterPage = "FeatureSamples/ViewModules/ModuleInPageMasterPage";
+        public const string FeatureSamples_ViewModules_ModuleInPageSpaMasterPage = "FeatureSamples/ViewModules/ModuleInPageSpaMasterPage";
+        public const string FeatureSamples_ViewModules_ModuleInPageSpaMasterPage2 = "FeatureSamples/ViewModules/ModuleInPageSpaMasterPage2";
         public const string FeatureSamples_Warnings_SelfClosingTags = "FeatureSamples/Warnings/SelfClosingTags";
-        public const string FeatureSamples_StaticCommand_CustomAwaitable = "FeatureSamples/StaticCommand/CustomAwaitable";
-        public const string FeatureSamples_MarkupControl_StaticCommandInMarkupControl = "/FeatureSamples/MarkupControl/StaticCommandInMarkupControl";
-        public const string FeatureSamples_MarkupControl_StaticCommandInMarkupControlCallingRegularCommand = "/FeatureSamples/MarkupControl/StaticCommandInMarkupControlCallingRegularCommand";
-        public const string FeatureSamples_MarkupControl_CommandPropertiesInMarkupControl = "/FeatureSamples/MarkupControl/CommandPropertiesInMarkupControl";
-    }
+        }
 }

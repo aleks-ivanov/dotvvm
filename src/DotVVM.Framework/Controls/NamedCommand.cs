@@ -57,11 +57,10 @@ namespace DotVVM.Framework.Controls
                 commandArgs: new CodeParameterAssignment("args", OperatorPrecedence.Max),
                 elementAccessor: "$element"
             );
-            var commandBinding = GetCommandBinding(CommandProperty)!;
-            var command = KnockoutHelper.GenerateClientPostBackScript(nameof(Command), commandBinding, this, options);
+            var command = KnockoutHelper.GenerateClientPostBackExpression(nameof(Command), Command!, this, options);
             command = $"function(...args) {{ return ({command}); }}";
 
-            var viewIdJs = PageModuleHelpers.GetViewIdJsExpression(viewModule, this);
+            var viewIdJs = ViewModuleHelpers.GetViewIdJsExpression(viewModule, this);
             writer.WriteKnockoutDataBindComment("dotvvm-named-command", $"{{ viewId: {viewIdJs}, name: {KnockoutHelper.MakeStringLiteral(Name!)}, command: {command} }}");
             
             base.RenderBeginTag(writer, context);
