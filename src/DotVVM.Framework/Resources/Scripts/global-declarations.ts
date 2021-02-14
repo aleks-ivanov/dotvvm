@@ -146,7 +146,6 @@ interface DotvvmPostbackHandlerCollection {
 
 type DotvvmStaticCommandResponse<T = any> = {
     result: T;
-    typeMetadata?: TypeMap,
     customData: { [key: string]: any };
     typeMetadata?: TypeMap;
 } | {
