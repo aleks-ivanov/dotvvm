@@ -115,12 +115,6 @@ namespace DotVVM.Framework.ViewModel.Serialization
             if (viewModelConverter.EncryptedValues.Count > 0)
                 viewModelToken["$encryptedValues"] = viewModelProtector.Protect(viewModelConverter.EncryptedValues.ToString(Formatting.None), context);
 
-            // serialize validation rules
-            bool useClientSideValidation = context.Configuration.ClientSideValidation;
-            var validationRules = useClientSideValidation ?
-                SerializeValidationRules(viewModelConverter) :
-                null;
-
             // create result object
             var result = new JObject();
             result["viewModel"] = viewModelToken;
@@ -143,8 +137,16 @@ namespace DotVVM.Framework.ViewModel.Serialization
             {
                 result["renderedResources"] = JArray.FromObject(context.ResourceManager.GetNamedResourcesInOrder().Select(r => r.Name));
             }
-            // TODO: do not send on postbacks
-            if (validationRules?.Count > 0) result["validationRules"] = validationRules;
+
+            if (!context.IsPostBack &&
+                context.View.GetValue(Internal.ReferencedViewModuleInfoProperty) is ImmutableList<ViewModuleReferenceInfo> viewModuleInfo &&
+                viewModuleInfo.Count > 0)
+            {
+                result["viewModules"] = JArray.FromObject(viewModuleInfo.Select(m => new {
+                    viewId = m.ViewId,
+                    modules = m.ReferencedModules
+                }).ToArray());
+            }
 
             if (commandResult != null) result["commandResult"] = WriteCommandData(commandResult, serializer, "the command result");
             AddCustomPropertiesIfAny(context, serializer, result);
@@ -178,7 +180,6 @@ namespace DotVVM.Framework.ViewModel.Serialization
             var response = new JObject();
             response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
             response["result"] = WriteCommandData(result, serializer, "the static command result");
-            response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
             AddCustomPropertiesIfAny(context, serializer, response);
             return response.ToString(JsonFormatting);
         }

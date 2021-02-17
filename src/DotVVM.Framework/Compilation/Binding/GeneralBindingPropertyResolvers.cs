@@ -248,6 +248,11 @@ namespace DotVVM.Framework.Compilation.Binding
                 )
             ));
         }
+        public ExpectedAsStringBindingExpression ExpectAsStringBinding(ParsedExpressionBindingProperty e, IBinding binding)
+        {
+            return new ExpectedAsStringBindingExpression(binding.DeriveBinding(new ExpectedTypeBindingProperty(typeof(string)), e));
+        }
+
 
         public DataSourceAccessBinding GetDataSourceAccess(ParsedExpressionBindingProperty expression, IBinding binding)
         {
@@ -280,7 +285,7 @@ namespace DotVVM.Framework.Compilation.Binding
             else if (expression.Expression.Type.Implements(typeof(IEnumerable<>)))
                 return new DataSourceLengthBinding(binding.DeriveBinding(
                     new ParsedExpressionBindingProperty(
-                        Expression.Call(typeof(Enumerable), "Count", new [] { ReflectionUtils.GetEnumerableType(expression.Expression.Type) },expression.Expression)
+                        Expression.Call(typeof(Enumerable), "Count", new[] { ReflectionUtils.GetEnumerableType(expression.Expression.Type) }, expression.Expression)
                     )));
             else throw new NotSupportedException($"Can not find collection length from binding '{expression.Expression}'.");
         }
