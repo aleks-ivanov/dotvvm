@@ -143,6 +143,17 @@ namespace DotVVM.Framework.ViewModel.Serialization
             {
                 result["renderedResources"] = JArray.FromObject(context.ResourceManager.GetNamedResourcesInOrder().Select(r => r.Name));
             }
+
+            if (!context.IsPostBack &&
+                context.View.GetValue(Internal.ReferencedViewModuleInfoProperty) is ImmutableList<ViewModuleReferenceInfo> viewModuleInfo &&
+                viewModuleInfo.Count > 0)
+            {
+                result["viewModules"] = JArray.FromObject(viewModuleInfo.Select(m => new {
+                    viewId = m.SpaceId,
+                    modules = m.ReferencedModules
+                }).ToArray());
+            }
+
             // TODO: do not send on postbacks
             if (validationRules?.Count > 0) result["validationRules"] = validationRules;
 
@@ -178,7 +189,6 @@ namespace DotVVM.Framework.ViewModel.Serialization
             var response = new JObject();
             response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
             response["result"] = WriteCommandData(result, serializer, "the static command result");
-            response["typeMetadata"] = SerializeTypeMetadata(context, viewModelConverter);
             AddCustomPropertiesIfAny(context, serializer, response);
             return response.ToString(JsonFormatting);
         }
