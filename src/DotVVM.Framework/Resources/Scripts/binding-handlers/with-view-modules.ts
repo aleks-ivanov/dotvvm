@@ -1,4 +1,3 @@
-import { keys } from '../utils/objects';
 import * as manager from '../viewModules/viewModuleManager';
 
 ko.virtualElements.allowedBindings["dotvvm-with-view-modules"] = true;
@@ -10,21 +9,17 @@ export default {
             }
 
             const value = valueAccessor();
-
-            console.info(value);
-
-            if (!value.viewId) {
-                throw new Error('Cannot initialize view modules. Property viewId not defined.');
-            }
-
-            if (!value.modules) {
-                throw new Error('Cannot initialize view modules. Property modules not defined.');
-            }
-
+            const contexts: any = {};
             for (const viewModuleName of value.modules) {
-                manager.initViewModule(viewModuleName, value.viewId, element)
+                contexts[viewModuleName] = manager.initViewModule(viewModuleName, value.viewIdOrElement, element);
             }
-            return { controlsDescendantBindings: false }; // do not apply binding again
+            if (typeof value.viewIdOrElement !== "string") {
+                (element as any)[manager.viewModulesSymbol] = contexts;
+            }
+
+            const innerBindingContext = bindingContext.extend({ $viewModules: contexts });
+            ko.applyBindingsToDescendants(innerBindingContext, element);
+            return { controlsDescendantBindings: true }; // do not apply binding again
         }
     }
 };
