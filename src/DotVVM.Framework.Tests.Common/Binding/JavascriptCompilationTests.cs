@@ -28,7 +28,7 @@ namespace DotVVM.Framework.Tests.Binding
         private BindingCompilationService bindingService;
 
         [TestInitialize]
-        public void INIT()
+        public void Init()
         {
             this.configuration = DotvvmTestHelper.CreateConfiguration();
             configuration.RegisterApiClient(typeof(TestApiClient), "http://server/api", "./apiscript.js", "_testApi");
@@ -47,7 +47,7 @@ namespace DotVVM.Framework.Tests.Binding
             {
                 context = DataContextStack.Create(contexts[i], context);
             }
-            var parser = new BindingExpressionBuilder(configuration.ServiceProvider.GetRequiredService<CompiledAssemblyCache>());
+            var parser = new BindingExpressionBuilder(configuration.ServiceProvider.GetRequiredService<CompiledAssemblyCache>(), configuration.ServiceProvider.GetRequiredService<MemberExpressionFactory>());
             var parsedExpression = parser.ParseWithLambdaConversion(expression, context, BindingParserOptions.Create<ValueBindingExpression>(), expectedType);
             var expressionTree =
                 TypeConversion.MagicLambdaConversion(parsedExpression, expectedType) ??
