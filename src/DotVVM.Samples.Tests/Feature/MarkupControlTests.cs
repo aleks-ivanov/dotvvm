@@ -5,6 +5,8 @@ using DotVVM.Testing.Abstractions;
 using OpenQA.Selenium;
 using Riganti.Selenium.Core;
 using Riganti.Selenium.Core.Abstractions;
+using Riganti.Selenium.Core.Api;
+using Riganti.Selenium.DotVVM;
 using Xunit;
 
 namespace DotVVM.Samples.Tests.Feature
@@ -70,8 +72,7 @@ namespace DotVVM.Samples.Tests.Feature
         {
             RunInAllBrowsers(browser => {
                 browser.NavigateToUrl(SamplesRouteUrls.FeatureSamples_MarkupControl_ControlControlCommandInvokeAction);
-                // The page is complex so we need to wait little longer until the DOM is properly generated
-                browser.Wait(2000);
+                browser.WaitUntilDotvvmInited();
 
                 var allButtons = browser.First("#buttons").FindElements("button");
                 foreach (var button in allButtons)
@@ -82,7 +83,9 @@ namespace DotVVM.Samples.Tests.Feature
                         var value = parent.First("[data-id='Column2']").GetText().Trim() + "|" + parent.First("[data-id=Row2]").GetText().Trim() + "|" + parent.First("[data-id='Row']").GetText().Trim() + "|" + parent.First("[data-id=Column]").GetText().Trim();
 
                         AssertUI.InnerTextEquals(browser.First("#value"), value);
-                    }, 2500, 25, "Button did not invoke action or action was not performed.");
+                    },
+                    8000, // sometimes chrome takes more time to negotiate with proxy (avg 3s) 
+                    "Button did not invoke action or action was not performed.");
                 }
 
                 AssertUI.TextEquals(browser.First("#Duplicity"), "false");
@@ -344,7 +347,18 @@ namespace DotVVM.Samples.Tests.Feature
             var newDeviceName = Guid.NewGuid().ToString();
 
             RunInAllBrowsers(browser => {
+                // clean the state 
                 browser.NavigateToUrl(SamplesRouteUrls.FeatureSamples_MarkupControl_StaticCommandInMarkupControl);
+                browser.WaitUntilDotvvmInited();
+
+                browser.First("[data-ui=reset]").Click();
+                browser.WaitFor(() => {
+                    AssertUI.TextEquals(browser.First("[data-ui='test-state']"), "OK");
+                }, 8000, "Test could not clear state.");
+
+                // start the test over
+                browser.NavigateToUrl(SamplesRouteUrls.FeatureSamples_MarkupControl_StaticCommandInMarkupControl);
+                browser.WaitUntilDotvvmInited();
 
                 var textBox = browser.First("input[data-ui=new-device-name]");
                 var save = browser.First("[data-ui=save]");
