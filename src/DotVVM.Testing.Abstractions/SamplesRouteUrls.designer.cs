@@ -328,5 +328,5 @@ namespace DotVVM.Testing.Abstractions
         public const string FeatureSamples_ViewModules_ModuleInPageSpaMasterPage = "FeatureSamples/ViewModules/ModuleInPageSpaMasterPage";
         public const string FeatureSamples_ViewModules_ModuleInPageSpaMasterPage2 = "FeatureSamples/ViewModules/ModuleInPageSpaMasterPage2";
         public const string FeatureSamples_Warnings_SelfClosingTags = "FeatureSamples/Warnings/SelfClosingTags";
-    }
+        }
 }

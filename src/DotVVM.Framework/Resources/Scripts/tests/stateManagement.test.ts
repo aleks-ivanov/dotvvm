@@ -1,7 +1,7 @@
 import { initDotvvm, fc, waitForEnd } from "./helper";
 import dotvvm from '../dotvvm-root'
 import { getStateManager } from "../dotvvm-base";
-import { StateManager } from "../state-manager";
+import { lastSetErrorSymbol, StateManager } from "../state-manager";
 import { serialize } from "../serialization/serialize";
 import fc_types, { json } from '../../../node_modules/fast-check/lib/types/fast-check'
 import { serializeDate } from "../serialization/date";
@@ -312,9 +312,9 @@ test("Propagate Date assignment", () => {
     vm.DateTime(val)
 
     // The date gets converted to DotVVM serialized date format
-    expect(s.state.DateTime).toBe(serializeDate(val))
+    expect(s.state.DateTime).toBe(serializeDate(val, false))
     s.doUpdateNow()
-    expect(vm.DateTime()).toBe(serializeDate(val))
+    expect(vm.DateTime()).toBe(serializeDate(val, false))
 })
 
 test("Serialized computed updates on changes", () => {
@@ -413,4 +413,53 @@ test("Stress test - simple increments with postbacks in background", async () =>
                 })
         }
     ), { timeout: 2000 })
+})
+
+test("lastSetError flag", () => {
+
+    // modify value using observable setter
+    vm.Int(1);  // valid
+    expect(vm.Int[lastSetErrorSymbol]).toBeUndefined();
+    expect(() => vm.Int(null)).toThrow();  // invalid
+    expect(vm.Int[lastSetErrorSymbol]).toBeDefined();
+    vm.Int(2);  // valid
+    expect(vm.Int[lastSetErrorSymbol]).toBeUndefined();
+    expect(() => vm.Int([])).toThrow();  // invalid
+    expect(vm.Int[lastSetErrorSymbol]).toBeDefined();
+
+    // changing state from state manager should reset the flag
+    s.patchState({ Int: 1 });
+    s.doUpdateNow();
+    expect(vm.Int[lastSetErrorSymbol]).toBeUndefined();
+    
+})
+
+test("lastSetError flag - changed back to the original value", () => {
+
+    // modify value using observable setter
+    vm.Int(1);  // valid
+    expect(vm.Int[lastSetErrorSymbol]).toBeUndefined();
+    expect(() => vm.Int(null)).toThrow();  // invalid
+    expect(vm.Int[lastSetErrorSymbol]).toBeDefined();
+    
+    // changing state from state manager should reset the flag (even if the actual value was not changed)
+    s.patchState({ Int: 1 });
+    s.doUpdateNow();
+    expect(vm.Int[lastSetErrorSymbol]).toBeUndefined();
+    
+})
+
+test("coercion happens before assigning to the observable", () => {
+
+    vm.Int(1);    
+    s.doUpdateNow();
+    expect(vm.Int()).toEqual(1);
+
+    vm.Int("3");
+    expect(vm.Int()).toEqual(3);
+    s.doUpdateNow();
+    expect(vm.Int()).toEqual(3);
+
+    expect(() => vm.Int({})).toThrow();
+
 })

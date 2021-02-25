@@ -9,6 +9,7 @@ import { patchViewModel } from "./postback/updater";
 
 export const currentStateSymbol = Symbol("currentState")
 const notifySymbol = Symbol("notify")
+export const lastSetErrorSymbol = Symbol("lastSetError")
 
 const internalPropCache = Symbol("internalPropCache")
 const updateSymbol = Symbol("update")
@@ -73,7 +74,7 @@ export class StateManager<TViewModel extends { $type?: TypeDefinition }> {
         initialState: TViewModel,
         public stateUpdateEvent: DotvvmEvent<TViewModel>
     ) {
-        this._state = coerce(initialState, initialState.$type!)
+        this._state = coerce(initialState, initialState.$type || { type: "dynamic" })
         this.stateObservable = createWrappedObservable(initialState, (initialState as any)["$type"], u => this.update(u))
         this.dispatchUpdate()
     }
@@ -226,7 +227,7 @@ export function unmapKnockoutObservables(viewModel: any): any {
 function createObservableObject<T extends object>(initialObject: T, typeHint: TypeDefinition | undefined, update: ((updater: StateUpdate<any>) => void)) {
     const typeId = (initialObject as any)["$type"] || typeHint
     let typeInfo;
-    if (typeId) {
+    if (typeId && !(typeId.hasOwnProperty("type") && typeId["type"] === "dynamic")) {
         typeInfo = getObjectTypeInfo(typeId)
     } 
 
@@ -240,13 +241,18 @@ function createWrappedObservable<T>(initialValue: T, typeHint: TypeDefinition | 
 
     let isUpdating = false
 
-    function observableValidator(newValue: any) {
-        if (isUpdating) { return }
+    function observableValidator(this: KnockoutObservable<T>, newValue: any): any {
+        if (isUpdating) { return newValue; }
         updatedObservable = true
 
         try {
-            updater(_ => unmapKnockoutObservables(newValue))
+            (this as any)[lastSetErrorSymbol] = void 0;
+            const unmappedValue = unmapKnockoutObservables(newValue);
+            const coerceResult = coerce(unmappedValue, typeHint || { type: "dynamic" }, (this as any)[currentStateSymbol]);
+            updater(_ => coerceResult)
+            return coerceResult;
         } catch (err) {
+            (this as any)[lastSetErrorSymbol] = err;
             console.debug(`Can not update observable to ${newValue}:`, err)
             throw err
         }
@@ -262,7 +268,6 @@ function createWrappedObservable<T>(initialValue: T, typeHint: TypeDefinition | 
 
     const obs = initialValue instanceof Array ? ko.observableArray([], observableValidator) : ko.observable(null, observableValidator) as any
     obs[updateSymbol] = updater
-
     let updatedObservable = false
 
     obs.subscribe((newVal: any) => {
@@ -274,9 +279,14 @@ function createWrappedObservable<T>(initialValue: T, typeHint: TypeDefinition | 
     }, null, isDeferred ? "dirty" : "change")
 
     function notify(newVal: any) {
+        if (updatedObservable) {
+            obs[lastSetErrorSymbol] = void 0;
+        }
+
         const currentValue = obs[currentStateSymbol]
         if (newVal === currentValue) { return }
         obs[currentStateSymbol] = newVal
+
         const observableWasSetFromOutside = updatedObservable
         updatedObservable = false
 
