@@ -42,6 +42,6 @@ jobs:
       - name: Run unit tests
         id: run_unit_tests
         run: |
-          dotnet test .\DotVVM.sln
+          dotnet test .\src\DotVVM.sln
 
 # Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
