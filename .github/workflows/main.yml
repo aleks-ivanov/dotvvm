@@ -18,20 +18,23 @@ jobs:
 
       - name: Clean .NET cache
         id: clean_dotnet_cache
-        shell: pwsh
         run: |
           dotnet clean .\src\DotVVM.sln
           dotnet nuget locals all --clear
 
-      # - name: Install NuGet packages
-      #   id: install_nuget_packages
-      #   shell: pwsh
-      #   run: |
-      #     nuget restore .\src\DotVVM.sln
+      - name: Install NuGet packages
+        id: install_nuget_packages
+        run: |
+          nuget restore .\src\DotVVM.sln
+
+      - name: Run yarn build script
+        id: run_yarn_build
+        run: |
+          cd .\src\DotVVM.Framework\
+          yarn build
 
       - name: Build solution
         id: build_solution
-        shell: pwsh
         run: |
           msbuild .\src\DotVVM.sln
 
