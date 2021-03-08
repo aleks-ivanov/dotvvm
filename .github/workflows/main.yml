@@ -39,4 +39,9 @@ jobs:
         run: |
           msbuild .\src\DotVVM.sln
 
+      - name: Run unit tests
+        id: run_unit_tests
+        run: |
+          dotnet test .\DotVVM.sln
+
 # Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
