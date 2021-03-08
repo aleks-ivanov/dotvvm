@@ -5,6 +5,13 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   ci:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        build-configuration: [ Debug, Release ]
+    env:
+      SOLUTION_PATH: .\src\DotVVM.sln
+      BUILD_PLATFORM: Any CPU
+      BUILD_CONFIGURATION: ${{ matrix.build-configuration }}
     steps:
       - name: Setup MSBuild
         id: setup_msbuild
@@ -19,13 +26,13 @@ jobs:
       - name: Clean .NET cache
         id: clean_dotnet_cache
         run: |
-          dotnet clean .\src\DotVVM.sln
+          dotnet clean $env:SOLUTION_PATH
           dotnet nuget locals all --clear
 
       - name: Install NuGet packages
         id: install_nuget_packages
         run: |
-          nuget restore .\src\DotVVM.sln
+          nuget restore $env:SOLUTION_PATH
 
       - name: Run yarn build script
         id: run_yarn_build
@@ -37,11 +44,13 @@ jobs:
       - name: Build solution
         id: build_solution
         run: |
-          msbuild .\src\DotVVM.sln
+          msbuild $env:SOLUTION_PATH `
+          /p:Platform=$env:BUILD_PLATFORM `
+          /p:Configuration=$env:BUILD_CONFIGURATION
 
       - name: Run unit tests
         id: run_unit_tests
         run: |
-          dotnet test .\src\DotVVM.sln
+          dotnet test $env:SOLUTION_PATH
 
 # Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
