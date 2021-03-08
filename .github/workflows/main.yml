@@ -31,6 +31,7 @@ jobs:
         id: run_yarn_build
         run: |
           cd .\src\DotVVM.Framework\
+          yarn install
           yarn build
 
       - name: Build solution
